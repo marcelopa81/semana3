@@ -1,0 +1,18 @@
+<pedido>
+    <itens>
+        <item>
+            <codigo>4</codigo>
+            <descricao>Gyoza Bovino</descricao>
+            <quantidade>3</quantidade>
+            <valorUnitario>23.5</valorUnitario>
+            <classeFiscal>2106.90.90</classeFiscal>
+        </item>
+        <item>
+            <codigo>9</codigo>
+            <descricao>Coca-Cola Lata 310 ML</descricao>
+            <quantidade>1</quantidade>
+            <valorUnitario>5.9</valorUnitario>
+            <classeFiscal>2202.10.00</classeFiscal>
+        </item>
+    </itens>
+</pedido>
