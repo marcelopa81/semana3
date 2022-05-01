@@ -20,4 +20,5 @@ public class ResultadoProcessamento {
     return subTotalPorClasseFiscal;
   }
 
+
 }
