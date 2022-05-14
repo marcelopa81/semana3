@@ -1,13 +1,12 @@
-package br.com.alura.oobj.produtor;
+package br.com.alura.oobj.producer;
 
 import javax.jms.*;
 import javax.naming.InitialContext;
-import java.util.Scanner;
 
 
-public class Consumidor {
+public class Produtor {
 
-    public static void main(String[] args) throws Exception {
+    public void produzMensagem(String mensagem, String nomeDoDestino) throws Exception {
 
         /*context é instanciado para acessar o arquivo jndi, que possui o arquivo de configuração jndi.properties
         Ao ser criador InitialContext, o context procura o arquivo jndi.properties */
@@ -27,25 +26,15 @@ public class Consumidor {
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
         //Criando o consumidor - recebe mensagens
-        Destination fila = (Destination) context.lookup("pedido");
-        MessageConsumer consumer = session.createConsumer(fila);
-        /*Recebendo a mensagem com a interface setMessageListenere e a implementação de uma
-        classe anônima que implementa a interface, que trata a mensagem. O new MessageListener() definirá um
-        método que recebe a mensagem*/
-        consumer.setMessageListener(new MessageListener() {
-            @Override
-            public void onMessage(Message message) {
-                //Fazendo um cast na mensdgem recebida com a sub interface TextMessage
-                TextMessage textMessage = (TextMessage)message;
-                try {
-                    System.out.println(textMessage.getText());
-                } catch (JMSException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        Destination fila = (Destination) context.lookup("financeiro");
 
-        new Scanner(System.in).nextLine();
+        //Criando um produtor que recebe a fila
+        MessageProducer messageProducer = session.createProducer(fila);
+
+        //Enviando a mensagem
+        Message message = session.createTextMessage(mensagem);
+       // Message message = session.createTextMessage(mensagem);
+        messageProducer.send(message);
 
         session.close();
         connection.close();

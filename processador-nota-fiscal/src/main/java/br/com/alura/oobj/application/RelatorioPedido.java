@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class RelatorioPedido{
+public class RelatorioPedido{
 
     private UUID id = UUID.randomUUID();
 
@@ -14,14 +14,22 @@ public abstract class RelatorioPedido{
 
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
-    private List<ClasseFiscalTotalPedido> listaItens = new ArrayList<>();
+    private List<SubTotalPorClasseFiscal.Item> listaItensPorClasseFiscal = new ArrayList<>();
 
-    public RelatorioPedido(UUID id, BigDecimal totalPedido, LocalDateTime dataCriacao,
-                           List<ClasseFiscalTotalPedido> listaIntens) {
-        this.id = id;
-        this.totalPedido = totalPedido;
-        this.dataCriacao = dataCriacao;
-        this.listaItens = listaItens;
+
+    public RelatorioPedido(ResultadoProcessamento resultadoProcessamento, List<SubTotalPorClasseFiscal.Item>
+                           listaItens) {
+        this.id = UUID.randomUUID();
+        this.totalPedido = resultadoProcessamento.getTotalPedido();
+        this.dataCriacao = LocalDateTime.now();
+        this.listaItensPorClasseFiscal = listaItens;
     }
 
+  public List<SubTotalPorClasseFiscal.Item> getListaItensPorClasseFiscal(){
+        return listaItensPorClasseFiscal;
+  }
+
+    public BigDecimal getTotalPedido() {
+        return totalPedido;
+    }
 }

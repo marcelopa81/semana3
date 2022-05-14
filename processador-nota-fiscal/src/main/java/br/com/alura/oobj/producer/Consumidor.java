@@ -1,10 +1,11 @@
-package br.com.alura.oobj.produtor;
+package br.com.alura.oobj.producer;
 
 import javax.jms.*;
 import javax.naming.InitialContext;
+import java.util.Scanner;
 
 
-public class Produtor {
+public class Consumidor {
 
     public static void main(String[] args) throws Exception {
 
@@ -27,13 +28,24 @@ public class Produtor {
 
         //Criando o consumidor - recebe mensagens
         Destination fila = (Destination) context.lookup("financeiro");
+        MessageConsumer consumer = session.createConsumer(fila);
+        /*Recebendo a mensagem com a interface setMessageListenere e a implementação de uma
+        classe anônima que implementa a interface, que trata a mensagem. O new MessageListener() definirá um
+        método que recebe a mensagem*/
+        consumer.setMessageListener(new MessageListener() {
+            @Override
+            public void onMessage(Message message) {
+                //Fazendo um cast na mensdgem recebida com a sub interface TextMessage
+                TextMessage textMessage = (TextMessage)message;
+                try {
+                    System.out.println(textMessage.getText());
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-        //Criando um produtor que recebe a fila
-        MessageProducer messageProducer = session.createProducer(fila);
-
-        //Enviando a mensagem
-        Message message = session.createTextMessage("teste");
-        messageProducer.send(message);
+        new Scanner(System.in).nextLine();
 
         session.close();
         connection.close();
